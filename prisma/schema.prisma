@@ -7,3 +7,13 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Measurement {
+  id           Int      @id @default(autoincrement())
+  deviceId     String   @db.VarChar(255)
+  activeEnergy Float
+  activePower  Float
+  timestamp    DateTime
+
+  @@map("measurements")
+}
