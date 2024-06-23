@@ -1,0 +1,22 @@
+version: '3'
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+    command: sh -c "npm install && npx prisma migrate dev && npm run start"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgresql://docker:docker@db:5432/greenant"
+  db:
+    image: bitnami/postgresql:latest
+    restart: always
+    environment:
+      POSTGRESQL_USERNAME: docker
+      POSTGRESQL_PASSWORD: docker
+      POSTGRESQL_DATABASE: greenant
+    ports:
+      - "5432:5432"
